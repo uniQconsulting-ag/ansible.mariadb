@@ -61,6 +61,7 @@
 
 - name: set root user password
   community.mysql.mysql_query:
+    login_db: mysql
     query: 
     - update user set password=PASSWORD('{{ mariadb_root_password }}') where User='root'
     - FLUSH PRIVILEGES
