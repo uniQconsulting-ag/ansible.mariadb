@@ -1,0 +1,37 @@
+---
+# In this file only includes will be made
+# See examples below
+
+# Never delete this
+- name: include global vars file if present
+  import_tasks: include-vars.yml
+
+
+- name: include the system-check
+  include_tasks: "include-file.yml"
+  loop_control:
+    loop_var: include_file_name 
+  loop:
+  - pre_systemcheck.yml
+
+- name: include pre-dependencies
+  include_tasks: "include-file.yml"
+  loop_control:
+    loop_var: include_file_name 
+  loop:
+  - pre_dependencies.yml
+
+- name: "include tasks"
+  include_tasks: "include-file.yml"
+  loop_control:
+    loop_var: include_file_name 
+  loop: "{{ role_include_files }}"
+
+- name: include pre-dependencies
+  include_tasks: "include-file.yml"
+  loop_control:
+    loop_var: include_file_name 
+  loop:
+  - post_dependencies.yml
+
+...
