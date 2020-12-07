@@ -10,6 +10,7 @@ mariadb_users_remove: {}
 mariadb_mysqld_custom_config: []
 mariadb_manage_only: no
 mariadb_selinux: yes
+nginx_update_only: no
 
 # Tuning
 mariadb_tuning_innodb_buffer: 1G
