@@ -1,7 +1,7 @@
 #!/usr/bin/ansible-playbook 
 ---
-- name: ROLENAME Setup
+- name: mariadb Setup
   hosts: localhost
   roles:
-    - uniqconsulting.ROLENAME
+    - uniqconsulting.mariadb
 ...

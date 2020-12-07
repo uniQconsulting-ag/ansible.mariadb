@@ -1,0 +1,25 @@
+[server]
+# Query Cache
+query_cache_type = 1
+query_cache_limit = {{ mariadb_tuning_query_cache_limit }}
+query_cache_min_res_unit = {{ mariadb_tuning_query_cache_min }}
+query_cache_size = {{ mariadb_tuning_query_cache }}
+
+# Buffer Size
+join_buffer_size = {{ mariadb_tuning_join_buffer }}
+sort_buffer_size = {{ mariadb_tuning_sort_buffer }}
+innodb_buffer_pool_size = {{ mariadb_tuning_innodb_buffer }}
+innodb_buffer_pool_instances = 1
+
+# Table Tuning
+tmp_table_size = {{ mariadb_tuning_tmp_table }}
+max_heap_table_size = {{ mariadb_tuning_heap_table }}
+table_open_cache = {{ mariadb_tuning_table_open }}
+
+# General
+performance_schema = ON
+skip-name-resolve
+
+[mysqld]
+# Log File
+innodb_log_file_size = {{ mariadb_tuning_innodb_log }}

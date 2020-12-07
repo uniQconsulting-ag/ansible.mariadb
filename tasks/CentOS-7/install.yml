@@ -1,0 +1,8 @@
+---
+
+- name: Install packages
+  yum:
+    name: "{{ mariadb_packages + mariadb_packages_centos7 }}" 
+    state: installed
+
+...

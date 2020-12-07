@@ -2,8 +2,25 @@
 # Here belong all variables, that can be changed by a vars-file,
 # a playbook or a include.
 
-run_systemcheck: yes
-install_openvmtools: yes
-additional_open_ports: []
+mariadb_secure_installation: yes
+mariadb_root_password: ''
+mariadb_databases: {}
+mariadb_users_create: {}
+mariadb_users_remove: {}
+mariadb_mysqld_custom_config: []
+mariadb_manage_only: no
+mariadb_selinux: yes
+
+# Tuning
+mariadb_tuning_innodb_buffer: 1G
+mariadb_tuning_sort_buffer: 1M
+mariadb_tuning_join_buffer: 1M
+mariadb_tuning_query_cache: 128M
+mariadb_tuning_query_cache_limit: 128K
+mariadb_tuning_query_cache_min: 1K
+mariadb_tuning_tmp_table: 64M
+mariadb_tuning_heap_table: 64M
+mariadb_tuning_table_open: 4000
+mariadb_tuning_innodb_log: 128M
 
 ...

@@ -1,0 +1,21 @@
+[Unit]
+Description=MariaDB database server wih MYSQLD_OPTS
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+User=mysql
+Group=mysql
+
+ExecStartPre=/usr/libexec/mariadb-prepare-db-dir %n
+ExecStart=/usr/bin/mysqld_safe --basedir=/usr $MYSQLD_OPTS
+ExecStartPost=/usr/libexec/mariadb-wait-ready $MAINPID
+
+TimeoutSec=300
+
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+

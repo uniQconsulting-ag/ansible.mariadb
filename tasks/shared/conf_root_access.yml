@@ -1,0 +1,78 @@
+---
+- name: verify mariadb root access
+  command:  mysql -u root -ne "show databases;"
+  register: mariadb_access_test
+  no_log: True
+  ignore_errors: True
+  changed_when: False
+
+- block:
+    - name: Create Systemd mariadb.service which respects env
+      template: 
+        src: mariadb.service.j2
+        dest: /etc/systemd/system/mariadb.service
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: just force systemd to reread configs
+      systemd:
+        daemon_reload: yes
+
+    - name: Stop MySQL
+      service:
+        name: mariadb 
+        state: stopped
+
+    - name: set environment variables
+      shell: systemctl set-environment MYSQLD_OPTS="--skip-grant-tables --skip-networking"
+
+    - name: Start MySQL
+      service:
+        name: mariadb
+        state: started
+
+    - name: Set root Password
+      command: mysql -u root mysql --execute="update user set password=PASSWORD('{{ mariadb_root_password }}') where User='root';"
+      no_log: true
+
+    - name: Stop MySQL
+      service: 
+        name: mariadb
+        state: stopped
+      
+    - name: remove customized mariadb.service
+      file: 
+        path: /etc/systemd/system/mariadb.service 
+        state: absent
+
+    - name: just force systemd to reread configs
+      systemd:
+        daemon_reload: yes
+
+    - name: unset environment variables
+      shell: systemctl unset-environment MYSQLD_OPTS
+
+    - name: Start MySQL
+      service: 
+        name: mariadb
+        state: started
+  when: mariadb_access_test is failed
+
+- name: set root user password
+  mysql_query:
+    query: 
+    - update user set password=PASSWORD('{{ mariadb_root_password }}') where User='root'
+    - FLUSH PRIVILEGES
+  no_log: true
+  when: mariadb_access_test is succeeded
+
+- name: Configure /root/.my.cnf
+  template: 
+    src: my.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+
+...

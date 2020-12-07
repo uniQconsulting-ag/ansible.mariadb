@@ -1,0 +1,52 @@
+---
+
+### SETUP ###
+# mariadb_root_password: 'nevermind!' #default: ''
+
+### DB Setup ###
+# mariadb_databases:
+#   - name: db_test                   #default: undefined
+#     state: absent                   #default: present
+#   - name: db1                       #default: undefined
+#     collation: utf8_general_ci      #default: utf8_general_ci
+#     encoding: utf8                  #default: utf8
+# mariadb_users_create:
+#   - name: user1                     #default: undefined
+#     password: krypt0n               #default: undefined
+#     hosts:
+#       - "web1"                      #default: localhost
+#       - "localhost"
+#     privs:
+#       - "*.*:SELECT"                #default: *.*:USAGE
+#       - "db1.*:INSERT"
+#     append_privs: no
+# mariadb_users_remove:
+#   - name: user2                     #default: undefined
+#     host_all: yes                   #default: no
+#   - name: user2                     #default: undefined
+#     host: web1                      #default: localhost
+ 
+### Custom Configs (use with caution) ##
+# db_mysqld_config:
+#   - default-storage-engine=InnoDB
+#   - max_allowed_packet=64M
+#   - query_cache_size=32M
+#   - datadir=/var/lib/mysql
+#   - socket=/var/lib/mysql/mysql.sock
+#   - symbolic-links=0
+
+### Tuning (use with caution!!) ###
+# these are some basic settings for a small deployment (using about 1.5G)
+# mariadb_tuning_innodb_buffer: 1G
+# mariadb_tuning_sort_buffer: 1M
+# mariadb_tuning_join_buffer: 1M
+# mariadb_tuning_query_cache: 128M
+# mariadb_tuning_query_cache_limit: 128K
+# mariadb_tuning_query_cache_min: 1K
+# mariadb_tuning_tmp_table: 64M
+# mariadb_tuning_heap_table: 64M
+# mariadb_tuning_table_open: 4000
+# mariadb_tuning_innodb_log: 128M
+
+...
+

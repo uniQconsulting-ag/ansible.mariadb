@@ -1,0 +1,21 @@
+---
+
+- name: Removes all anonymous user accounts
+  mysql_user:
+    name: ''
+    host_all: yes
+    state: absent
+
+- name: Remove test db
+  mysql_db:
+    name: test
+    state: absent
+
+- name: Disallow root login remotely
+  mysql_query:
+    query: 
+    - DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
+    - DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'
+    - FLUSH PRIVILEGES
+
+...

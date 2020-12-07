@@ -1,0 +1,7 @@
+# ansible config: /etc/my.cnf.d/custom.cnf
+[mysqld]
+innodb_large_prefix = 1
+innodb_file_format = barracuda
+{% for mysqld_config in mariadb_mysqld_custom_config %}
+{{ mysqld_config }}
+{% endfor %}

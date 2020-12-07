@@ -3,8 +3,8 @@
 galaxy_info:
   author: uniQconsulting ag
   company: uniqconsulting
-  role_name: <ROLENAME>
-  description: <DESCRIPTION>
+  role_name: mariadb
+  description: installation and configuration of mariadb (mysql)
   min_ansible_version: 2.4
   license: GPLv3
   platforms:
