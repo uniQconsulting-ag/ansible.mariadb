@@ -60,7 +60,7 @@
   when: mariadb_access_test is failed
 
 - name: set root user password
-  mysql_query:
+  community.mysql.mysql_query:
     query: 
     - update user set password=PASSWORD('{{ mariadb_root_password }}') where User='root'
     - FLUSH PRIVILEGES
