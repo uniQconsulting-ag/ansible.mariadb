@@ -4,6 +4,6 @@
   yum:
     name: "{{ mariadb_packages }}" 
     state: installed
-  when: not nginx_update_only
+  when: not mariadb_update_only
 
 ...

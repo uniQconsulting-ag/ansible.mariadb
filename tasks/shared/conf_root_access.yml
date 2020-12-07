@@ -65,7 +65,7 @@
     - update user set password=PASSWORD('{{ mariadb_root_password }}') where User='root'
     - FLUSH PRIVILEGES
   no_log: true
-  when: mariadb_access_test is succeeded and not nginx_update_only
+  when: mariadb_access_test is succeeded and not mariadb_update_only
 
 - name: Configure /root/.my.cnf
   template: 
@@ -74,6 +74,6 @@
     owner: root
     group: root
     mode: 0600
-  when: not nginx_update_only
+  when: not mariadb_update_only
 
 ...
