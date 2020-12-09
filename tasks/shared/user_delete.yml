@@ -7,8 +7,9 @@
 - name: Manage Mariadb users to remove
   mysql_user:
     name: "{{ user_conf.name }}"
-    host: "{{ user_conf.host  }}"
+    host: "{{ item }}"
     host_all: "{{ user_conf.host_all | default('no') }}"
     state: absent
+  loop: "{{ user_conf.hosts }}"
     
 ...
