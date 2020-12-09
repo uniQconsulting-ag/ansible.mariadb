@@ -1,13 +1,13 @@
 ---
 - name: Manage Mariadb users to create
-  include_tasks: shared/user_conf.yml
+  include_tasks: shared/user_create.yml
   loop: "{{ mariadb_users_create }}"
   loop_control:
     loop_var: user
   when: mariadb_users_create|length > 0
 
 - name: Manage Mariadb users to remove
-  include_tasks: shared/user_conf.yml
+  include_tasks: shared/user_delete.yml
   loop: "{{ mariadb_users_remove }}"
   loop_control:
     loop_var: user
