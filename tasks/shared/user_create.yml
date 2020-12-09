@@ -1,0 +1,16 @@
+---
+
+- name: calculate user
+  set_fact:
+    user_conf: "{{ mariadb_default_user_conf | combine(user) }}"
+
+- name: Manage Mariadb users to create
+  mysql_user:
+    name: "{{ user_conf.name }}"
+    host: "{{ user_conf.hosts }}"
+    password: "{{ user_conf.password }}"
+    priv: "{{ user_conf.privs | join('/')  }}"
+    state: present
+    append_privs: "{{ user_conf.append_privs }}"
+  no_log: true
+...

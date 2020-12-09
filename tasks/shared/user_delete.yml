@@ -1,0 +1,14 @@
+---
+
+- name: calculate user
+  set_fact:
+    user_conf: "{{ mariadb_default_user_conf | combine(user) }}"
+
+- name: Manage Mariadb users to remove
+  mysql_user:
+    name: "{{ user_conf.name }}"
+    host: "{{ user_conf.host  }}"
+    host_all: "{{ user_conf.host_all | default('no') }}"
+    state: absent
+    
+...

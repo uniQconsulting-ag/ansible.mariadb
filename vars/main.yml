@@ -23,4 +23,13 @@ mariadb_packages_centos8:
 mariadb_packages_centos7:
 - mariadb-server
 
+mariadb_default_user_conf:
+  name: ""
+  password: ""
+  hosts:
+  - "localhost"
+  privs: []
+ # - "dbname.*:ALL"
+  append_privs: no
+
 ...
