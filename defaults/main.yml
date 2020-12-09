@@ -4,9 +4,9 @@
 
 mariadb_secure_installation: yes
 mariadb_root_password: ''
-mariadb_databases: {}
-mariadb_users_create: {}
-mariadb_users_remove: {}
+mariadb_databases: []
+mariadb_users_create: []
+mariadb_users_remove: []
 mariadb_mysqld_custom_config: []
 mariadb_manage_only: no
 mariadb_selinux: yes
