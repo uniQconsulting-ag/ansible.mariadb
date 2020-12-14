@@ -8,9 +8,9 @@ Type=simple
 User=mysql
 Group=mysql
 
-ExecStartPre=/usr/libexec/mariadb-prepare-db-dir %n
+ExecStartPre=/usr/libexec/mysql-prepare-db-dir %n
 ExecStart=/usr/bin/mysqld_safe --basedir=/usr $MYSQLD_OPTS
-ExecStartPost=/usr/libexec/mariadb-wait-ready $MAINPID
+ExecStartPost=/usr/libexec/mysql-check-upgrade
 
 TimeoutSec=300
 
