@@ -1,9 +1,5 @@
 ---
 
-- name: install missing ansible collection
-  shell: ansible-galaxy collection install community.mysql
-  change_when: no
-
 - name: Install packages
   yum:
     name: "{{ mariadb_packages }}" 
