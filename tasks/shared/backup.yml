@@ -1,0 +1,27 @@
+---
+- name: Create mariadb backup script
+  template: 
+    src: backup-mysql.sh.j2
+    dest: /usr/local/sbin/backup-mysql.sh
+    owner: root 
+    group: root 
+    mode: 0700
+  tags: [backup]
+
+- name: enable crond
+  service:
+    name: crond
+    enabled: yes
+  tags: [backup]
+
+- name: create cronjob for backup
+  cron:
+    name: backup-mysql
+    disabled: "{{ not (mariadb_backup_enable | bool) }}"
+    minute: 1
+    hour: 2
+    user: root
+    job: /usr/local/sbin/backup-mysql.sh
+    cron_file: backup-mysql
+  tags: [backup]
+...

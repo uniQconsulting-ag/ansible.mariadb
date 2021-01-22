@@ -1,0 +1,37 @@
+#! /bin/bash
+# {{ ansible_managed }}
+
+### NOTE ###
+# vi /root/.my.cnf
+# ---
+# [client]
+# host=localhost
+# user=your_login
+# password=your_password
+RC=0
+KEEP_DAYS="{{ mariadb_backup_keep_daily }}"
+KEEP_WEEKS="{{ mariadb_backup_keep_weekly }}"
+KEEP_MONTHS="{{ mariadb_backup_keep_monthly }}"
+BDIR="{{ mariadb_backup_dir }}"
+test -d ${BDIR} || mkdir -p "${BDIR}"
+chmod 700 "$BDIR"
+BTYPE=daily
+
+for DB_NAME in $( mysql -N -B -e "show databases" | egrep -v 'information_schema|performance_schema' )
+do
+  mysqldump ${DB_NAME} --single-transaction | gzip > ${BDIR}/${BTYPE}__$(date '+%Y%m%d')__${DB_NAME}.mysql.gz || RC=1
+  [ "$(date '+%u')" == "1" ] && cp -al ${BDIR}/${BTYPE}__$(date '+%Y%m%d')__${DB_NAME}.mysql.gz ${BDIR}/weekly__$(date '+%Y%m%d')__${DB_NAME}.mysql.gz
+  [ "$(date '+%d')" == "01" ] && cp -al ${BDIR}/${BTYPE}__$(date '+%Y%m%d')__${DB_NAME}.mysql.gz ${BDIR}/monthly__$(date '+%Y%m%d')__${DB_NAME}.mysql.gz
+done
+
+if [ $RC -eq 0 ]
+then
+  find "${BDIR}" -type f -name "daily__*.mysql.gz" -prune -mtime +${KEEP_DAYS} -exec rm -f {} \;
+  find "${BDIR}" -type f -name "weekly__*.mysql.gz" -prune -mtime +$((${KEEP_WEEKS}*7)) -exec rm -f {} \;
+  find "${BDIR}" -type f -name "monthly__*.mysql.gz" -prune -mtime +$((${KEEP_MONTHS}*31)) -exec rm -f {} \;
+else
+   logger -t $(basename $0) "ERROR: mysql backup failed, we need attention"
+fi
+
+################################################################################
+

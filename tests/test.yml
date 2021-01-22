@@ -1,0 +1,7 @@
+#!/usr/bin/ansible-playbook 
+---
+- name: mariadb Setup
+  hosts: vm11
+  roles:
+    - uniqconsulting.mariadb
+...

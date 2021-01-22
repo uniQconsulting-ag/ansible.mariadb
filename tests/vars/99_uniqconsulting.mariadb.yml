@@ -48,5 +48,12 @@
 # mariadb_tuning_table_open: 4000
 # mariadb_tuning_innodb_log: 128M
 
+### Daily Backup via cron ###
+# mariadb_backup_enable: True
+# mariadb_backup_dir: /srv/bkp/mariadb
+# mariadb_backup_keep_daily: 3
+# mariadb_backup_keep_weekly: 2
+# mariadb_backup_keep_monthly: 1
+
 ...
 
