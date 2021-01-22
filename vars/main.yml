@@ -10,6 +10,7 @@ role_include_files:  # add for example requirements.yml
 - secure.yml
 - database.yml
 - user_conf.yml
+- backup.yml
 
 # Packages
 mariadb_packages:
