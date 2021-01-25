@@ -1,16 +1,4 @@
 ---
-# Here belong all variables, that can be changed by a vars-file,
-# a playbook or a include.
-
-# Role
-role_include_files:  # add for example requirements.yml
-- install.yml
-- config.yml
-- conf_root_access.yml
-- secure.yml
-- database.yml
-- user_conf.yml
-- backup.yml
 
 # Packages
 mariadb_packages:
