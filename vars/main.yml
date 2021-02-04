@@ -10,6 +10,7 @@ mariadb_packages_centos8:
 - mysqltuner
 
 mariadb_packages_centos7:
+- MySQL-python
 - mariadb-server
 
 mariadb_default_user_conf:
