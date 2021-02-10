@@ -1,0 +1,13 @@
+---
+
+- name: install dependent collection
+  shell: ansible-galaxy collection install community.mysql.mysql_query | egrep '.*community.mysql.mysql_query.*already installed' > /dev/null && echo "true" || echo "false"
+  changed_when: collection_cmd.stdout == "false"
+  register: collection_cmd
+
+- name: check if dependencies were met
+  fail:
+    msg: "Collection had to be installed. Please restart the playbook."
+  when: collection_cmd.stdout == "false"
+
+...
