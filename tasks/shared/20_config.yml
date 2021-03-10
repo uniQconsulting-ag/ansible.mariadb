@@ -1,24 +1,35 @@
 ---
 
+# Generate /etc/my.cnf only if it hasn't been changed manually
+
+- name: Check MD5 sum
+  shell: test -f /etc/my.cnf.ansible_md5 || md5sum /etc/my.cnf > /etc/my.cnf.ansible_md5 ; md5sum --check /etc/my.cnf.ansible_md5 > /dev/null 2>&1 && echo "true" || echo "false"
+  register: md5sum
+
 - name: update base mariadb server configuration
   template:
-    src: base.cnf.j2
-    dest: /etc/my.cnf.d/base.cnf
+    src: my.cnf.j2
+    dest: /etc/my.cnf
     owner: root
     group: root
     mode: 0644
   notify: restart mariadb
-  when: not mariadb_update_only
+  when:
+  - not mariadb_update_only
+  - md5sum.stdout == "true"
 
-- name: update tuning mariadb server configuration
-  template:
-    src: tuning.cnf.j2
-    dest: /etc/my.cnf.d/tuning.cnf
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart mariadb
-  when: not mariadb_update_only
+- name: debug msg
+  debug:
+    msg: "/etc/my.cnf HAS BEEN MANUALLY CHANGED"
+  failed_when: md5sum.stdout == "false"
+  ignore_errors: yes
+  when: md5sum.stdout == "false"
+
+- name: generate MD5 sum
+  shell: md5sum /etc/my.cnf > /etc/my.cnf.ansible_md5
+  when: md5sum.stdout == "true"
+  
+# Generate /etc/my.cnf only if it hasn't been changed manually
 
 - name: Enable and start mariadb-server
   service:

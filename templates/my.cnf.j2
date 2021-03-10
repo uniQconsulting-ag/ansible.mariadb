@@ -1,3 +1,18 @@
+[server]
+{% for mysqld_config in mariadb_config_server %}
+{{ mysqld_config }}
+{% endfor %}
+
+
+[mysqld]
+{% for mysqld_config in mariadb_config_mysqld %}
+{{ mysqld_config }}
+{% endfor %}
+
+
 [client]
-user=root
-password={{ mariadb_root_password }}
+{% for mysqld_config in mariadb_config_client %}
+{{ mysqld_config }}
+{% endfor %}
+
+!includedir /etc/my.cnf.d

@@ -7,12 +7,38 @@ mariadb_root_password: ''
 mariadb_databases: []
 mariadb_users_create: []
 mariadb_users_remove: []
-mariadb_mysqld_custom_config: []
 mariadb_manage_only: no
 mariadb_selinux: yes
 mariadb_update_only: no
 
-# Tuning
+mariadb_config_server:
+- "# Query Cache"
+- query_cache_type = 1
+- query_cache_limit = 128K
+- query_cache_min_res_unit = 1K
+- query_cache_size = 128M
+- "# Buffer Size"
+- join_buffer_size = 1M
+- sort_buffer_size = 1M
+- innodb_buffer_pool_size = 1G
+- innodb_buffer_pool_instances = 1
+- "# Table Tuning"
+- tmp_table_size = 64M
+- max_heap_table_size = 64M
+- table_open_cache = 4000
+- "# General"
+- performance_schema = ON
+- skip-name-resolve
+
+mariadb_config_mysqld:
+- "# General"
+- innodb_large_prefix = 1
+- innodb_file_format = barracuda
+- "# Log File"
+- innodb_log_file_size = 128M
+
+mariadb_config_client:
+
 mariadb_tuning_innodb_buffer: 1G
 mariadb_tuning_sort_buffer: 1M
 mariadb_tuning_join_buffer: 1M
